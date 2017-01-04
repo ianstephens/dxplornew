@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Service_GetHotelDetail>
+
+  <GetHotelDetail_Response>
+
+    <HotelId>WSMA0511000113</HotelId>
+
+    <HotelName>Amari Boulevard</HotelName>
+
+    <Rating>4.00</Rating>
+
+    <HotelRooms>309</HotelRooms>
+
+    <Address1>2 Soi 5</Address1>
+
+    <Address2>Sukhumvit Road Wattana</Address2>
+
+    <Address3/>
+
+    <Continent>Asia</Continent>
+
+    <Region>South Eastern Asia</Region>
+
+    <Location>Sukhumvit</Location>
+
+    <Telephone>(66) 2255 – 2930</Telephone>
+
+    <Facsimile>(66) 2255 – 2950</Facsimile>
+
+    <Email>boulevard@amari.com</Email>
+
+    <Website>www.amari.com</Website>
+
+    <Facility name="Babysit"/>
+
+    <Facility name="Beauty Salon"/>
+
+    <Facility name="Elevator"/>
+
+    <Facility name="Garden"/>
+
+    <Facility name="Library"/>
+
+    <Facility name="Newspaper"/>
+
+    <Facility name="Smoke Alarm"/>
+
+  </GetHotelDetail_Response>
+
+</Service_GetHotelDetail>

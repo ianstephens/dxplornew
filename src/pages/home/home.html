@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Welcome to Ionic!</h2>
+
+  <form #form="ngForm" (ngSubmit)="logForm(form)" novalidate>
+    <ion-item>
+      <ion-label>Check In Date</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="todo.checkin" name="checkin"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Check Out Date</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Country</ion-label>
+      <ion-select [(ngModel)]="todo.country" name="country">
+        <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
+      -->
+        <ion-option value="MA05110001">Thailand</ion-option>
+        <ion-option value="MA05110069" selected>Singapore</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>City</ion-label>
+    <ion-select [(ngModel)]="todo.destination" name="destination">
+      <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
+    -->
+      <ion-option value="MA05110041">Bangkok</ion-option>
+      <ion-option value="MA05110067">Phuket</ion-option>
+      <ion-option value="MA05110906" selected>Singapore</ion-option>
+    </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Guests</ion-label>
+      <ion-select [(ngModel)]="todo.guest" name="guest">
+        <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
+      -->
+        <ion-option selected>1</ion-option>
+        <ion-option>2</ion-option>
+        <ion-option>3</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Rooms</ion-label>
+      <ion-select [(ngModel)]="todo.room" name="room">
+        <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
+      -->
+        <ion-option selected>1</ion-option>
+        <ion-option>2</ion-option>
+        <ion-option>3</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <!--
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="todo.title" name="title"></ion-input>
+    </ion-item>-->
+    <button ion-button type="submit" block>Add Todo</button>
+  </form>
+  <ion-list>
+    <!-- items = list yang tadi udah diisi di controller home.ts -->
+    <ion-item *ngFor="let item of xmlItems">
+
+      <h2>{{item.name}}</h2>
+
+    </ion-item>
+  </ion-list>
+</ion-content>
