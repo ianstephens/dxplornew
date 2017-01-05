@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { LoadingController ,NavController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -14,7 +14,7 @@ export class HomePage {
   public xmlItems : any;
 
   constructor(public navCtrl: NavController,
-              public http   : Http)
+              public http   : Http, public loadingController: LoadingController)
   {
 
   }
@@ -34,16 +34,24 @@ export class HomePage {
     let headers = new Headers({ 'Content-Type': 'application/xml' });
     let options = new RequestOptions({ headers: headers });
     var reqVar = 'requestXML=<?xml version="1.0" encoding="utf-8" ?><Service_GetHotelDetail><AgentLogin> <AgentId>DXMG</AgentId> <LoginName>DXMG</LoginName> <Password>DXMGT2016</Password> </AgentLogin> <GetHotelDetail_Request> <HotelId>WSMA0511000113</HotelId> </GetHotelDetail_Request> </Service_GetHotelDetail>';
-    this.http.get("http://localhost/testes.php?destination="+todo.destination+"&checkin="+todo.checkin+"&checkout="+todo.checkout+"&guest="+todo.guest+"&room="+todo.room+"&country="+todo.country)
+
+    let loader = this.loadingController.create({
+          content: "Mencari hotel..."
+        });  
+    loader.present();    
+this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destination+"&checkin="+todo.checkin+"&checkout="+todo.checkout+"&guest="+todo.guest+"&room="+todo.room+"&country="+todo.country)
       .map(res => res.text())
       .subscribe((data)=>
       {
-        this.parseXML(data)
+          this.parseXML(data)
+          loader.dismiss()
+
           .then((data)=>
           {
             this.xmlItems = data;
-          });
+         });
       });
+
     /*this.http.get('/assets/coba.xml')
       .map(res => res.text())
       .subscribe((data)=>
