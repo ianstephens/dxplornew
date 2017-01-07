@@ -4,6 +4,11 @@ import { Http } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import xml2js from 'xml2js';
+import { ResultPage } from '../result/result';
+import { AboutPage } from '../about/about';
+import { MyPagePage } from '../my-page/my-page';
+import { NgModule } from '@angular/core';
+
 
 @Component({
   selector: 'page-home',
@@ -11,12 +16,17 @@ import xml2js from 'xml2js';
 })
 export class HomePage {
 
-  public xmlItems : any;
+  public date : any;
+
+  public formatteddate :any;
+
+  resultpg = ResultPage;
 
   constructor(public navCtrl: NavController,
               public http   : Http, public loadingController: LoadingController)
   {
-
+      this.date = new Date().toISOString();
+      //this.convertToID();
   }
 
 
@@ -27,7 +37,7 @@ export class HomePage {
   }
 
 
-
+  /*
   loadXML(todo)
   {
 
@@ -37,8 +47,8 @@ export class HomePage {
 
     let loader = this.loadingController.create({
           content: "Mencari hotel..."
-        });  
-    loader.present();    
+        });
+    loader.present();
 this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destination+"&checkin="+todo.checkin+"&checkout="+todo.checkout+"&guest="+todo.guest+"&room="+todo.room+"&country="+todo.country)
       .map(res => res.text())
       .subscribe((data)=>
@@ -52,7 +62,7 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
          });
       });
 
-    /*this.http.get('/assets/coba.xml')
+    this.http.get('/assets/coba.xml')
       .map(res => res.text())
       .subscribe((data)=>
       {
@@ -67,7 +77,7 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
     {
       this.xmlItems = data;
       console.log(data);
-    });*/
+    });
   }
 
 
@@ -99,13 +109,14 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
 
           });
           resolve(arr);
+          //this.navCtrl.push(this.resultpg);
         }
 
         });
 
 
     });
-  }
+  }*/
 
   //event ketika button di list di klik
   buttonClick(event){
@@ -132,9 +143,20 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
   };
 
   logForm(form) {
-    console.log(form.value)
-    this.loadXML(this.todo);
+    console.log(this.todo)
+
+    //this.loadXML(this.todo);
+    //this.navCtrl.push(AboutPage);
+
+    this.navCtrl.push(ResultPage, {
+      param1: this.todo
+    });
+
+
   }
+
+
+
 
 }
 

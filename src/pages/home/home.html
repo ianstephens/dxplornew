@@ -12,11 +12,11 @@
   <form #form="ngForm" (ngSubmit)="logForm(form)" novalidate>
     <ion-item>
       <ion-label>Check In Date</ion-label>
-      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="todo.checkin" name="checkin"></ion-datetime>
+      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{date}}"[(ngModel)]="todo.checkin" name="checkin">"{{date}}"</ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Check Out Date</ion-label>
-      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
+      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{date}}"[(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
     </ion-item>
 
     <ion-item>
@@ -66,14 +66,7 @@
     <ion-item>
       <ion-input type="text" [(ngModel)]="todo.title" name="title"></ion-input>
     </ion-item>-->
-    <button ion-button type="submit" block>Add Todo</button>
+    <button ion-button type="submit" block>Cari</button>
   </form>
-  <ion-list>
-    <!-- items = list yang tadi udah diisi di controller home.ts -->
-    <ion-item *ngFor="let item of xmlItems">
 
-      <h2>{{item.name}}</h2>
-
-    </ion-item>
-  </ion-list>
 </ion-content>
