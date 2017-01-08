@@ -12,53 +12,54 @@
   <form #form="ngForm" (ngSubmit)="logForm(form)" novalidate>
     <ion-item>
       <ion-label>Check In Date</ion-label>
-      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{date}}"[(ngModel)]="todo.checkin" name="checkin">"{{date}}"</ion-datetime>
+      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{todo.checkin}}"[(ngModel)]="todo.checkin" name="checkin">"{{date}}"</ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Check Out Date</ion-label>
-      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{date}}"[(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
+      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{todo.checkout}}"[(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>Country</ion-label>
-      <ion-select [(ngModel)]="todo.country" name="country">
+      <ion-select [(ngModel)]="todo.country"  name="country"  (ionChange)="filterArray(todo.country)" okText="Select">
         <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
       -->
-        <ion-option value="MA05110001">Thailand</ion-option>
-        <ion-option value="MA05110069" selected>Singapore</ion-option>
+        <ion-option *ngFor="let country of countryArray" value="{{country.code}}">
+          {{country.name}}
+        </ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>City</ion-label>
-    <ion-select [(ngModel)]="todo.destination" name="destination">
+    <ion-select [(ngModel)]="todo.destination" name="destination" disabled={{isDisable}} okText="Select">
       <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
     -->
-      <ion-option value="MA05110041">Bangkok</ion-option>
-      <ion-option value="MA05110067">Phuket</ion-option>
-      <ion-option value="MA05110906" selected>Singapore</ion-option>
+      <ion-option *ngFor="let city of filteredCity" value="{{city.code}}">
+        {{city.name}}
+      </ion-option>
     </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label>Guests</ion-label>
-      <ion-select [(ngModel)]="todo.guest" name="guest">
+      <ion-select [(ngModel)]="todo.guest" name="guest" okText="Select" >
         <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
       -->
-        <ion-option selected>1</ion-option>
-        <ion-option>2</ion-option>
-        <ion-option>3</ion-option>
+        <ion-option *ngFor="let guest of guestColumn" value="{{guest}}">
+          {{guest}} guest(s)
+        </ion-option>
       </ion-select>
     </ion-item>
 
 
     <ion-item>
       <ion-label>Rooms</ion-label>
-      <ion-select [(ngModel)]="todo.room" name="room">
+      <ion-select [(ngModel)]="todo.room" name="room" okText="Select">
         <!--<ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
       -->
-        <ion-option selected>1</ion-option>
-        <ion-option>2</ion-option>
-        <ion-option>3</ion-option>
+        <ion-option *ngFor="let room of roomColumn" value="{{room}}">
+          {{room}} room(s)
+        </ion-option>
       </ion-select>
     </ion-item>
 

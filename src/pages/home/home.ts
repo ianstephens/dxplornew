@@ -17,106 +17,94 @@ import { NgModule } from '@angular/core';
 export class HomePage {
 
   public date : any;
-
-  public formatteddate :any;
-
   resultpg = ResultPage;
+
+  public countryArray = [];
+  public cityArray = [];
+  public filteredCity=[];
+  public guestColumn=[];
+  public roomColumn=[];
+
+  isDisable = true;
 
   constructor(public navCtrl: NavController,
               public http   : Http, public loadingController: LoadingController)
   {
+      this.todo.checkin = new Date().toISOString() ;
+      var checkout = new Date();
+      checkout.setDate(checkout.getDate() + 1);
+      this.todo.checkout = checkout.toISOString();
       this.date = new Date().toISOString();
+
+      this.countryArray.push(
+        {
+          code:'MA05110001',
+          name:'Thailand'
+        },
+        {
+          code:'MA05110069',
+          name:'Singapore'
+        }
+      );
+
+      this.cityArray.push(
+        {
+          countrycode:'MA05110001',
+          code:'MA05110041',
+          name:'Bangkok'
+        },
+        {
+          countrycode:'MA05110001',
+          code:'MA05110067',
+          name:'Phuket'
+        },
+        {
+          countrycode:'MA05110069',
+          code:'MA05110906',
+          name:'Singapore '
+        }
+      );
+
+      for(var i=1;i<=30;i++){
+        this.guestColumn.push(i);
+      }
+      for(var i=1;i<=8;i++){
+        this.roomColumn.push(i);
+      }
       //this.convertToID();
   }
 
 
-
+  addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
   ionViewWillEnter()
   {
     //this.loadXML();
   }
 
-
-  /*
-  loadXML(todo)
-  {
-
-    let headers = new Headers({ 'Content-Type': 'application/xml' });
-    let options = new RequestOptions({ headers: headers });
-    var reqVar = 'requestXML=<?xml version="1.0" encoding="utf-8" ?><Service_GetHotelDetail><AgentLogin> <AgentId>DXMG</AgentId> <LoginName>DXMG</LoginName> <Password>DXMGT2016</Password> </AgentLogin> <GetHotelDetail_Request> <HotelId>WSMA0511000113</HotelId> </GetHotelDetail_Request> </Service_GetHotelDetail>';
-
-    let loader = this.loadingController.create({
-          content: "Mencari hotel..."
-        });
-    loader.present();
-this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destination+"&checkin="+todo.checkin+"&checkout="+todo.checkout+"&guest="+todo.guest+"&room="+todo.room+"&country="+todo.country)
-      .map(res => res.text())
-      .subscribe((data)=>
-      {
-          this.parseXML(data)
-          loader.dismiss()
-
-          .then((data)=>
-          {
-            this.xmlItems = data;
-         });
-      });
-
-    this.http.get('/assets/coba.xml')
-      .map(res => res.text())
-      .subscribe((data)=>
-      {
-        this.parseXML(data)
-          .then((data)=>
-          {
-            this.xmlItems = data;
-            console.log(data);
-          });
-      });
-    this.parseXML(data1).then((data)=>
-    {
-      this.xmlItems = data;
-      console.log(data);
-    });
+  cekEmptyCity(){
+    if(this.filteredCity.length == 0){
+      alert('Pilih Negara Terlebih Dahulu!');
+    }
   }
 
-
-  parseXML(data)
-  {
-    return new Promise(resolve =>
-    {
-      var k,
-        arr    = [],
-        parser = new xml2js.Parser(
-          {
-            trim: true,
-            explicitArray: true
-          });
-
-      parser.parseString(data, function (err, result)
-      {
-        var obj = result.Service_SearchHotel;
-        var item = obj.SearchHotel_Response[0];
-        console.log(obj);
-
-        for(k in item.Hotel) {
-          var data = item.Hotel[k];
-          var data1 = data.$;
-          console.log(data1);
-
-          arr.push({
-            name: data1.HotelName
-
-          });
-          resolve(arr);
-          //this.navCtrl.push(this.resultpg);
-        }
-
-        });
-
-
-    });
-  }*/
+  filterArray(key) {
+    this.filteredCity = [];
+    for(var i=0;i<this.cityArray.length;i++){
+      if(this.cityArray[i].countrycode == key){
+        this.filteredCity.push(this.cityArray[i]);
+      }
+    }
+    if(this.filteredCity.length != 0){
+      this.isDisable = false;
+    }
+    else{
+      this.isDisable = true;
+    }
+  }
 
   //event ketika button di list di klik
   buttonClick(event){
