@@ -72,17 +72,79 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
         for(k in item.Hotel) {
           var data = item.Hotel[k];
           var data1 = data.$;
-          var roomcateg = data.RoomCateg;
-          var roomcateg2 = roomcateg[k];
-          var roomcateg3 = roomcateg2.$;
-          console.log(roomcateg);
+
+         // console.log(data);
+          var hotelRoomArr = [];
+          for(let l in data.RoomCateg){
+            var roomcateg = data.RoomCateg[l].$;
+            var roomcategloop = data.RoomCateg[l];
+
+           // console.log(roomcategloop.RoomType);
+            var roomtypeArr = [];
+
+            for(let m in roomcategloop.RoomType){
+              var roomtype = roomcategloop.RoomType[m].$;
+              var roomtypeloop = roomcategloop.RoomType[m];
+
+              for(let n in roomtypeloop.Rate){
+                var roomRateArr = [];
+                var roomRate = roomtypeloop.Rate[n].$;
+                var roomRateLoop = roomtypeloop.Rate[n];
+
+                console.log(roomRateLoop);
+
+                for(let o in roomRateLoop.RoomRate){
+                  var roomRateContent = roomRateLoop.RoomRate[o];
+
+                  for(let p in roomRateContent.RoomSeq){
+                    var roomSeqArr = [];
+                    var roomSeq = roomRateContent.RoomSeq[p].$;
+
+                     roomSeqArr.push({
+                      adultnum:roomSeq.AdultNum,
+                      childnum:roomSeq.ChildNum,
+                      roomprice:roomSeq.RoomPrice,
+                    });
+                  }
+
+                }
+
+                roomRateArr.push({
+                  offset:roomRate.offSet,
+                  nightprice:roomRate.NightPrice,
+                  roomSeq:roomSeqArr
+                });
+
+              }
+
+              roomtypeArr.push({
+                typename:roomtype.TypeName,
+                numrooms:roomtype.NumRooms,
+                netprice:roomtype.RTNetPrice,
+                roomRate:roomRateArr
+              });
+
+            }
+
+            hotelRoomArr.push({
+              code:roomcateg.Code,
+              name:roomcateg.Name,
+              netprice:roomcateg.NetPrice,
+              grossprice:roomcateg.GrossPrice,
+              commprice:roomcateg.CommPrice,
+              price:roomcateg.Price,
+              bftype:roomcateg.BFType,
+              roomtype:roomtypeArr
+            });
+          }
+          //console.log(data);
 
           arr.push({
             nama : data1.HotelName,
             currency:data1.Currency,
             id:data1.HotelId,
             rating: data1.Rating,
-            netprice:roomcateg3.NetPrice
+            roomcategory:hotelRoomArr
           });
         }
         resolve(arr);
@@ -102,11 +164,12 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
     });
   }
 
+
+
   //event ketika list item di klik
   itemClicked(event,itemData){
-    console.log("item clicked");
-    console.log(event);
-    console.log(itemData);
+    //console.log(itemData.roomcategory[0].roomtype[0].typename);
+    console.log(itemData.roomcategory[0]);
   }
 
 

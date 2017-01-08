@@ -10,7 +10,7 @@
   <h2>Hasil Pencarian</h2>
   <ion-list>
     <!-- items = list yang tadi udah diisi di controller home.ts -->
-    <ion-item *ngFor="let hotel of hotelData">
+    <ion-item *ngFor="let hotel of hotelData" (click)="itemClicked($event,hotel)">
 
       <ion-card>
         <ion-card-header>
