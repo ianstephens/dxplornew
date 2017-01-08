@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Hasil Pencarian
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Hasil Pencarian</h2>
+  <ion-list>
+    <!-- items = list yang tadi udah diisi di controller home.ts -->
+    <ion-item *ngFor="let hotel of hotelData">
+
+      <ion-card>
+        <ion-card-header>
+          <h1>{{hotel.nama}}</h1>
+        </ion-card-header>
+        <ion-card-content>
+          <h2>{{hotel.currency}} {{hotel.netprice}}</h2>
+
+          <ion-icon name="ios-star" *ngFor="let i of getNumber(hotel.rating)" item-right></ion-icon>
+          <button ion-button color="secondary" (click)="buttonClick(hotel.id)">Detail</button>
+        </ion-card-content>
+      </ion-card>
+
+
+    </ion-item>
+  </ion-list>
+</ion-content>
