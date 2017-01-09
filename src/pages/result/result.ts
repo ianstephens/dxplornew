@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { LoadingController ,NavController, NavParams } from 'ionic-angular';
+import { LoadingController ,NavController, NavParams, ModalController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import xml2js from 'xml2js';
 import { DetailHotelPage } from '../detail-hotel/detail-hotel';
+
+
 
 @Component({
   selector: 'page-result',
@@ -91,8 +93,7 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
                 var roomRate = roomtypeloop.Rate[n].$;
                 var roomRateLoop = roomtypeloop.Rate[n];
 
-                console.log(roomRateLoop);
-
+               // console.log(roomRateLoop);
                 for(let o in roomRateLoop.RoomRate){
                   var roomRateContent = roomRateLoop.RoomRate[o];
 
@@ -160,7 +161,7 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
   buttonClick(value){
     //alert(value);
     this.navCtrl.push(DetailHotelPage,{
-      hotelid: value
+      hoteldata: value
     });
   }
 
@@ -182,7 +183,32 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
     checkout: ''
   };
 
+  findLowestPrice(roomcategory){
+    var min=roomcategory[0].netprice;
+    for(var i=0;i<roomcategory.length;i++){
+      if(roomcategory[i].netprice < min){
+        min = roomcategory[i].netprice;
+      }
+    }
+    return min;
+  }
+
+  barTitle(){
+
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+
+    var datein = new Date(this.param.checkin);
+    var dateout = new Date(this.param.checkout);
+
+    var diffDays = Math.round(Math.abs((datein.getTime() - dateout.getTime())/(oneDay)));
 
 
+    return days[datein.getDay()]+ ", "+ datein.getDate() +" "+ monthNames[datein.getMonth()] + ' → ' +days[dateout.getDay()] + ", "+ dateout.getDate() + " " +monthNames[dateout.getMonth()] +" | "+diffDays+" night(s)";
+  }
 }
 

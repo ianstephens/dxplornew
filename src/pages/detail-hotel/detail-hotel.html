@@ -6,24 +6,37 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>detail-hotel</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Detail Hotel</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <h2>{{nama}}</h2>
 
-  <p><b>Lokasi : </b>{{lokasi}}</p>
-  <tr><p><b>Alamat : </b>{{alamat1}} {{alamat2}} {{alamat3}}</p></tr>
-  <tr><p><b>Website : </b>{{website}}</p>
-  <tr><p><b>Telepon : </b>{{telepon}}</p>
-  <tr><p><b>Fax : </b>{{fax}}</p>
-  <tr><p><b>E-mail : </b>{{email}}</p>
-  <tr><p><b>Jumlah Ruangan : </b>{{jumlah_ruangan}}</p>
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title>
+        <h1>{{nama}}</h1>
+      </ion-card-title>
+      <p>
+        Address : {{alamat1}} {{alamat2}} {{alamat3}}, {{lokasi}}
+      </p>
+      <h3 item-right>Phone : {{telepon}}, Fax : {{fax}} <br> e-mail : {{email}}</h3>
 
-  <button ion-button (click)="loadCancelPolicy()" >Cancel Policy</button>
+      Website :
+      <a href="#" (click)="openURL(website)">
+       {{website}}
+      </a>
+
+      <h2>Room Available : {{jumlah_ruangan}} </h2>
+
+      <button ion-button (click)="loadCancelPolicy()" >Cancel Policy</button>
+      <button ion-button (click)="presentModal(hoteldata) " color="secondary" >Select Room</button>
+
+    </ion-card-content>
+  </ion-card>
+
 
 </ion-content>

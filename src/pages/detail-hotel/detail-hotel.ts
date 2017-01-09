@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import xml2js from 'xml2js';
+import { ModalController } from 'ionic-angular';
+import {ModalRoomcategoryPage} from "../modal-roomcategory/modal-roomcategory";
+
 
 /*
   Generated class for the DetailHotel page.
@@ -15,7 +18,7 @@ import xml2js from 'xml2js';
 })
 export class DetailHotelPage {
 
-  public hotelid : any;
+  public hoteldata : any;
 
   public id:any;
   public nama :any;
@@ -39,10 +42,10 @@ export class DetailHotelPage {
   public facility = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http   : Http, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http   : Http, public alertCtrl: AlertController,public modalCtrl: ModalController) {
 
-    this.hotelid = navParams.get('hotelid');
-    this.loadData(this.hotelid);
+    this.hoteldata = navParams.get('hoteldata');
+    this.loadData(this.hoteldata.id);
 
   }
 
@@ -50,7 +53,17 @@ export class DetailHotelPage {
     console.log('ionViewDidLoad DetailHotelPage');
   }
 
+  presentModal(hoteldata) {
 
+    this.navCtrl.push(ModalRoomcategoryPage,{
+      hoteldata: hoteldata
+    });
+
+    /*
+    let modal = this.modalCtrl.create(ModalRoomcategoryPage , {"hoteldata": hoteldata});
+    modal.present();
+    */
+  }
 
   loadCancelPolicy()
   {
@@ -81,11 +94,10 @@ export class DetailHotelPage {
         policy += (i+1)+'. '+ policies[i].description + "<br>" +"- Charge Type : " + policies[i].chargetype +"<br>" + "- Ex Cancel Days : " +policies[i].excanceldays ;
       }
     }
-
     let alert = this.alertCtrl.create({
       title: 'Cancel Policy',
       subTitle:policy,
-      buttons: ['OK']
+      buttons: ['Tutup']
     });
     alert.present();
   }
@@ -125,6 +137,11 @@ export class DetailHotelPage {
             //this.loader.dismiss();
           });
       });
+  }
+
+  openURL(url){
+    console.log(url)
+    window.open("http://"+url, '_blank', 'location=no');
   }
 
 

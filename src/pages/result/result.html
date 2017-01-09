@@ -1,8 +1,9 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar  color="primary">
     <ion-title>
-      Hasil Pencarian
+      {{barTitle()}}
     </ion-title>
+
   </ion-navbar>
 </ion-header>
 
@@ -10,21 +11,12 @@
   <h2>Hasil Pencarian</h2>
   <ion-list>
     <!-- items = list yang tadi udah diisi di controller home.ts -->
-    <ion-item *ngFor="let hotel of hotelData" (click)="itemClicked($event,hotel)">
+    <ion-item *ngFor="let hotel of hotelData" (click)="buttonClick(hotel)">
+      <h1>{{hotel.nama}}</h1>
 
-      <ion-card>
-        <ion-card-header>
-          <h1>{{hotel.nama}}</h1>
-        </ion-card-header>
-        <ion-card-content>
-          <h2>{{hotel.currency}} {{hotel.netprice}}</h2>
+      <ion-icon name="ios-star" *ngFor="let i of getNumber(hotel.rating)" item-right></ion-icon>
 
-          <ion-icon name="ios-star" *ngFor="let i of getNumber(hotel.rating)" item-right></ion-icon>
-          <button ion-button color="secondary" (click)="buttonClick(hotel.id)">Detail</button>
-        </ion-card-content>
-      </ion-card>
-
-
+      <h2>Start from {{hotel.currency}} {{findLowestPrice(hotel.roomcategory)}} </h2>
     </ion-item>
   </ion-list>
 </ion-content>

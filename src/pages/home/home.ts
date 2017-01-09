@@ -27,16 +27,56 @@ export class HomePage {
 
   isDisable = true;
 
+
+  public checkinmin;
+  public checkoutmin;
+
+  public minin;
+  public minout;
+
   constructor(public navCtrl: NavController,
               public http   : Http, public loadingController: LoadingController)
   {
+
+      this.checkinmin = new Date();
+      this.checkoutmin = new Date();
+      this.checkoutmin.setDate(this.checkinmin.getDate()+1);
+
+
+      this.minin = this.checkinmin.toISOString();
+      this.minout= this.checkoutmin.toISOString();
+
+      var todaydate = new Date();
+      var aftertodaydate = new Date();
+      aftertodaydate.setDate(aftertodaydate.getDate()+1);
+
+
+      this.todo.checkin   = todaydate.toISOString();
+      this.todo.checkout  = aftertodaydate.toISOString();
+
+      /*
+      this.checkoutmin.setDate(this.checkinmin.getDate()+1);
+      this.checkoutmin.toISOString();
+      this.checkoutmin.toISOString();
+      */
+
+      console.log(new Date());
+
+      var todaydate = new Date();
+      //this.todo.checkin = todaydate.getFullYear()+"-"+todaydate.getMonth()+"-"+ todaydate.getDate();
+
+      /*
       this.todo.checkin = new Date().toISOString() ;
       var checkout = new Date();
       checkout.setDate(checkout.getDate() + 1);
+
       this.todo.checkout = checkout.toISOString();
+      */
       this.date = new Date().toISOString();
 
-      this.countryArray.push(
+
+
+    this.countryArray.push(
         {
           code:'MA05110001',
           name:'Thailand'
@@ -74,6 +114,26 @@ export class HomePage {
       //this.convertToID();
   }
 
+  logCheckin(checkin) {
+    console.log(checkin);
+    var date = new Date(checkin);
+
+    var checkoutd = new Date(this.todo.checkout);
+    if (date >= checkoutd) {
+      date.setDate(date.getDate() + 1);
+
+      this.todo.checkout = date.toISOString();
+      this.minout = date.toISOString();
+    }
+    else{
+      date.setDate(date.getDate() + 1);
+      this.minout = date.toISOString();
+    }
+  }
+
+  logCheckout(checkin){
+    console.log(checkin);
+  }
 
   addDays(date, days) {
     var result = new Date(date);
@@ -131,10 +191,13 @@ export class HomePage {
   };
 
   logForm(form) {
-    console.log(this.todo)
+    //console.log(this.todo.checkin);
 
     //this.loadXML(this.todo);
     //this.navCtrl.push(AboutPage);
+
+    this.todo.checkin = this.todo.checkin.split("T")[0];
+    this.todo.checkout = this.todo.checkout.split("T")[0];
 
     this.navCtrl.push(ResultPage, {
       param1: this.todo

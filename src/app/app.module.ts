@@ -5,6 +5,9 @@ import { HomePage } from '../pages/home/home';
 import { ResultPage } from '../pages/result/result';
 import {DetailHotelPage} from "../pages/detail-hotel/detail-hotel";
 import {VcancelpolicyPage} from "../pages/vcancelpolicy/vcancelpolicy";
+import {ModalRoomcategoryPage} from "../pages/modal-roomcategory/modal-roomcategory";
+import {RoomTypePage} from "../pages/room-type/room-type";
+
 import { MultiPickerModule } from 'ion-multi-picker';
 
 
@@ -14,7 +17,9 @@ import { MultiPickerModule } from 'ion-multi-picker';
     HomePage,
     ResultPage,
     DetailHotelPage,
-    VcancelpolicyPage
+    VcancelpolicyPage,
+    ModalRoomcategoryPage,
+    RoomTypePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -26,7 +31,9 @@ import { MultiPickerModule } from 'ion-multi-picker';
     HomePage,
     ResultPage,
     DetailHotelPage,
-    VcancelpolicyPage
+    VcancelpolicyPage,
+    ModalRoomcategoryPage,
+    RoomTypePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
+  <ion-navbar  color="primary">
+    <ion-title >
       Home
     </ion-title>
   </ion-navbar>
@@ -12,11 +12,11 @@
   <form #form="ngForm" (ngSubmit)="logForm(form)" novalidate>
     <ion-item>
       <ion-label>Check In Date</ion-label>
-      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{todo.checkin}}"[(ngModel)]="todo.checkin" name="checkin">"{{date}}"</ion-datetime>
+      <ion-datetime (ionChange)="logCheckin(todo.checkin)" pickerFormat="YYYY-MM-DD," displayFormat="DDDD, DD MMMM YYYY" min="{{minin}}"[(ngModel)]="todo.checkin" name="checkin">"{{date}}"</ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Check Out Date</ion-label>
-      <ion-datetime pickerFormat="YYYY-MM-DD" displayFormat="DDDD, DD MMMM YYYY" min="{{todo.checkout}}"[(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
+      <ion-datetime  (ionChange)="logCheckout(todo.checkin)" pickerFormat="YYYY-MM-DD," displayFormat="DDDD, DD MMMM YYYY" min="{{minout}}"[(ngModel)]="todo.checkout" name="checkout"></ion-datetime>
     </ion-item>
 
     <ion-item>
