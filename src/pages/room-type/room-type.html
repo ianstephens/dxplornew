@@ -16,11 +16,11 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let roomtype of hoteldata">
-      {{roomc.name}}
-      <h2 item-right> USD {{roomc.netprice}}</h2>
-
-      <button ion-button (click)="showRoomTypeDetail(roomc.nama)" block>Show Detail</button>
+    <ion-item *ngFor="let roomty of roomtype">
+      <h2>Room type : <b>{{roomty.typename}}</b></h2>
+      <h2 item-right> USD {{roomty.netprice}}</h2>
+        Rooms : {{roomty.numrooms}}<br>
+      <button ion-button (click)="showRoomTypeDetail(roomty.roomRate)">Show Detail</button>
 
     </ion-item>
   </ion-list>

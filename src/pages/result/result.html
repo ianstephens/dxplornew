@@ -9,9 +9,12 @@
 
 <ion-content padding>
   <h2>Hasil Pencarian</h2>
-  <ion-list>
+  <h3 *ngIf="isEmpty==true">No Data Found</h3>
+
+  <ion-list *ngIf="isEmpty==false">
     <!-- items = list yang tadi udah diisi di controller home.ts -->
-    <ion-item *ngFor="let hotel of hotelData" (click)="buttonClick(hotel)">
+
+    <ion-item *ngFor="let hotel of hotelData" (click)="buttonClick(hotel)" >
       <h1>{{hotel.nama}}</h1>
 
       <ion-icon name="ios-star" *ngFor="let i of getNumber(hotel.rating)" item-right></ion-icon>

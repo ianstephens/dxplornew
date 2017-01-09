@@ -16,10 +16,17 @@ export class RoomTypePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.roomtype = navParams.get('roomtype');
+    console.log(this.roomtype)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomTypePage');
+  }
+
+  showRoomTypeDetail(roomRate){
+      for(var i=0;i<roomRate.length;i++){
+
+      }
   }
 
 }

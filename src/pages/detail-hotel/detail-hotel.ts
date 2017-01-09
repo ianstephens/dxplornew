@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import xml2js from 'xml2js';
 import { ModalController } from 'ionic-angular';
 import {ModalRoomcategoryPage} from "../modal-roomcategory/modal-roomcategory";
+import {RoomTypePage} from "../room-type/room-type";
 
 
 /*
@@ -42,11 +43,35 @@ export class DetailHotelPage {
   public facility = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http   : Http, public alertCtrl: AlertController,public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http   : Http,
+              public alertCtrl: AlertController,public modalCtrl: ModalController, public actionSheetCtrl: ActionSheetController) {
 
     this.hoteldata = navParams.get('hoteldata');
     this.loadData(this.hoteldata.id);
 
+  }
+
+  presentActionSheet(){
+
+    var actionSheetArr = [];
+    for(var i=0;i<this.hoteldata.roomcategory.length;i++) {
+      var roomcategory = this.hoteldata.roomcategory[i];
+      actionSheetArr.push(
+        {
+          text: roomcategory.name + " (USD " + roomcategory.netprice + ")",
+          handler: () => {
+            this.navCtrl.push(RoomTypePage, {
+              roomtype: roomcategory.roomtype
+            });
+          }
+        }
+      )
+    }
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Choose Room Type',
+      buttons: actionSheetArr
+    });
+    actionSheet.present();
   }
 
   ionViewDidLoad() {
