@@ -9,17 +9,16 @@
 
 <ion-content padding>
   <h2>Hasil Pencarian</h2>
-  <h3 *ngIf="isEmpty==true">No Data Found</h3>
+  <p *ngIf="isEmpty==true" align="center">Oops.. No Data Found, please try again using different search terms</p>
 
-  <ion-list *ngIf="isEmpty==false">
+  <ion-list >
     <!-- items = list yang tadi udah diisi di controller home.ts -->
+    <ion-item *ngFor="let hotel of hotelData" (click)="buttonClick(hotel)"  >
+      <h1>{{hotel.$.HotelName}}</h1>
 
-    <ion-item *ngFor="let hotel of hotelData" (click)="buttonClick(hotel)" >
-      <h1>{{hotel.nama}}</h1>
+      <ion-icon name="ios-star" *ngFor="let i of getNumber(hotel.$.Rating)" item-right></ion-icon>
 
-      <ion-icon name="ios-star" *ngFor="let i of getNumber(hotel.rating)" item-right></ion-icon>
-
-      <h2>Start from {{hotel.currency}} {{findLowestPrice(hotel.roomcategory)}} </h2>
+      <h2>Start from {{hotel.$.Currency}} {{findLowestPrice(hotel.RoomCateg)}} </h2>
     </ion-item>
   </ion-list>
 </ion-content>

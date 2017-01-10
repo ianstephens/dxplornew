@@ -16,6 +16,7 @@ export class ResultPage {
 
   public hotelData : any;
 
+  public fullResponseArray :any;
   public hotelarray = [];
 
   public param : any;
@@ -48,16 +49,21 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
           this.parseXML(data)
           .then((data)=>
           {
-            this.hotelData = data;
+              this.fullResponseArray = data;
+              this.hotelData = this.fullResponseArray.Hotel;
 
-            if(this.hotelData.isempty === undefined){
+            console.log(this.hotelData[0].$.HotelName);
+
+            this.loader.dismiss();
+
+            /*
+            if(this.hotelData.length != 0){
               this.isEmpty = false;
-              this.loader.dismiss();
-            }
-            else{
-              this.isEmpty = true
-              this.loader.dismiss();
-            }
+            }else{
+              this.isEmpty = true;
+            }*/
+              //this.loader.dismiss();
+
           });
       });
   }
@@ -77,100 +83,133 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
 
       parser.parseString(data, function (err, result)
       {
-          var obj = result.Service_SearchHotel;
-          var item = obj.SearchHotel_Response[0];
+        var obj = result.Service_SearchHotel;
+        var item = obj.SearchHotel_Response[0];
 
-          //console.log(item.Result)
-          if(item.Result === undefined) {
-            //console.log(obj);
-            for (k in item.Hotel) {
-              var data = item.Hotel[k];
-              var data1 = data.$;
+        arr = item;
+        console.log(arr);
+        /*
+        console.log(item)
+          //console.log(obj);
+          for (k in item.Hotel) {
+            var data = item.Hotel[k];
+            var data1 = data.$;
 
-              // console.log(data);
-              var hotelRoomArr = [];
-              for (let l in data.RoomCateg) {
-                var roomcateg = data.RoomCateg[l].$;
-                var roomcategloop = data.RoomCateg[l];
+            // console.log(data);
+            var hotelRoomArr = [];
+            for (let l in data.RoomCateg) {
+              var roomcateg = data.RoomCateg[l].$;
+              var roomcategloop = data.RoomCateg[l];
 
-                // console.log(roomcategloop.RoomType);
-                var roomtypeArr = [];
+              // console.log(roomcategloop.RoomType);
+              var roomtypeArr = [];
 
-                for (let m in roomcategloop.RoomType) {
-                  var roomtype = roomcategloop.RoomType[m].$;
-                  var roomtypeloop = roomcategloop.RoomType[m];
+              for (let m in roomcategloop.RoomType) {
+                var roomtype = roomcategloop.RoomType[m].$;
+                var roomtypeloop = roomcategloop.RoomType[m];
+                var roomRateArr = [];
 
-                  for (let n in roomtypeloop.Rate) {
-                    var roomRateArr = [];
-                    var roomRate = roomtypeloop.Rate[n].$;
-                    var roomRateLoop = roomtypeloop.Rate[n];
+                for (let n in roomtypeloop.Rate) {
+                  var roomRate = roomtypeloop.Rate[n].$;
+                  var roomRateLoop = roomtypeloop.Rate[n];
 
-                    // console.log(roomRateLoop);
-                    for (let o in roomRateLoop.RoomRate) {
-                      var roomRateContent = roomRateLoop.RoomRate[o];
+                  // console.log(roomRateLoop);
+                  var roomRateContentArr = [];
 
-                      for (let p in roomRateContent.RoomSeq) {
-                        var roomSeqArr = [];
-                        var roomSeq = roomRateContent.RoomSeq[p].$;
+                  var roomRateInfo = [];
+                  var roomRateInfoContent = roomRateLoop.RoomRateInfo[0];
 
-                        roomSeqArr.push({
-                          adultnum: roomSeq.AdultNum,
-                          childnum: roomSeq.ChildNum,
-                          roomprice: roomSeq.RoomPrice,
-                        });
-                      }
 
+                  roomRateInfo.push({
+                    roomratechild: roomRateInfoContent.Child,
+                    roomratepromotion: roomRateInfoContent.RatePromotion,
+                    roomrateminstay: roomRateInfoContent.Minstay,
+                    roomratecompulsory: roomRateInfoContent.Compulsory,
+                    roomratesupplement: roomRateInfoContent.Supplement,
+                    roompromotion: roomRateInfoContent.Promotion,
+                    roomrateearlybird: roomRateInfoContent.EarlyBird,
+                    roomratecommission : roomRateInfoContent.Commission
+                  });
+
+                  for (let o in roomRateLoop.RoomRate) {
+                    var roomRateContent = roomRateLoop.RoomRate[o];
+                    var roomSeqArr = [];
+
+                    for (let p in roomRateContent.RoomSeq) {
+                      var roomSeq = roomRateContent.RoomSeq[p].$;
+
+                      roomSeqArr.push({
+                        adultnum: roomSeq.AdultNum,
+                        childnum: roomSeq.ChildNum,
+                        roomprice: roomSeq.RoomPrice,
+                        minstayprice: roomSeq.MinstayPrice,
+                        compulsoryprice: roomSeq.CompulsoryPrice,
+                        supplementprice: roomSeq.SupplementPrice,
+                        promotionbfprice: roomSeq.PromotionBFPrice,
+                        earlybirddiscount: roomSeq.EarlyBirdDiscount,
+                        commissionprice: roomSeq.CommissionPrice,
+                        sroomtype: roomSeq.sRoomType
+                      });
                     }
 
-                    roomRateArr.push({
-                      offset: roomRate.offSet,
-                      nightprice: roomRate.NightPrice,
-                      roomSeq: roomSeqArr
+                    roomRateContentArr.push({
+                      roomratecontent : roomSeqArr
                     });
-
                   }
 
-                  roomtypeArr.push({
-                    typename: roomtype.TypeName,
-                    numrooms: roomtype.NumRooms,
-                    netprice: roomtype.RTNetPrice,
-                    roomRate: roomRateArr
+                  roomRateArr.push({
+                    offset: roomRate.offSet,
+                    nightprice: roomRate.NightPrice,
+                    roomratecontent: roomRateContentArr,
+                    roomrateinfo : roomRateInfo
                   });
 
                 }
 
-                hotelRoomArr.push({
-                  code: roomcateg.Code,
-                  name: roomcateg.Name,
-                  netprice: roomcateg.NetPrice,
-                  grossprice: roomcateg.GrossPrice,
-                  commprice: roomcateg.CommPrice,
-                  price: roomcateg.Price,
-                  bftype: roomcateg.BFType,
-                  roomtype: roomtypeArr
+                roomtypeArr.push({
+                  typename: roomtype.TypeName,
+                  numrooms: roomtype.NumRooms,
+                  totalprice: roomtype.TotalPrice,
+                  avrnightprice: roomtype.avrNightPrice,
+                  rtgrossprice: roomtype.RTGrossPrice,
+                  rtcommprice: roomtype.RTCommPrice,
+                  netprice: roomtype.RTNetPrice,
+                  roomRate: roomRateArr
                 });
-              }
-              //console.log(data);
 
-              arr.push({
-                nama: data1.HotelName,
-                currency: data1.Currency,
-                id: data1.HotelId,
-                rating: data1.Rating,
-                roomcategory: hotelRoomArr
+              }
+
+              hotelRoomArr.push({
+                code: roomcateg.Code,
+                name: roomcateg.Name,
+                netprice: roomcateg.NetPrice,
+                grossprice: roomcateg.GrossPrice,
+                commprice: roomcateg.CommPrice,
+                price: roomcateg.Price,
+                bftype: roomcateg.BFType,
+                roomtype: roomtypeArr
               });
             }
-          }
-          else{
-            console.log("aaa")
+            //console.log(data);
 
             arr.push({
-              isempty : true
+              hotelid: data1.HotelId,
+              nama: data1.HotelName,
+              currency: data1.Currency,
+              id: data1.HotelId,
+              rating: data1.Rating,
+              marketname: data1.MarketName,
+              dtcheckin: data1.dtCheckIn,
+              dtcheckout: data1.dtCheckOut,
+              cancelpolicyid:data1.CancelPolicyId,
+              internalcode:data1.InternalCode,
+              avail:data1.avail,
+              roomcategory: hotelRoomArr
             });
-          }
-          resolve(arr);
+          }*/
+        resolve(arr);
 
-        });
+      });
 
     });
   }
@@ -183,7 +222,8 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
   buttonClick(value){
     //alert(value);
     this.navCtrl.push(DetailHotelPage,{
-      hoteldata: value
+      hoteldata: value,
+      bookdata:this.param
     });
   }
 
@@ -206,10 +246,10 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
   };
 
   findLowestPrice(roomcategory){
-    var min=roomcategory[0].netprice;
+    var min=roomcategory[0].$.NetPrice;
     for(var i=0;i<roomcategory.length;i++){
-      if(roomcategory[i].netprice < min){
-        min = roomcategory[i].netprice;
+      if(roomcategory[i].$.NetPrice < min){
+        min = roomcategory[i].$.NetPrice;
       }
     }
     return min;
@@ -230,7 +270,9 @@ this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destinati
     var diffDays = Math.round(Math.abs((datein.getTime() - dateout.getTime())/(oneDay)));
 
 
-    return days[datein.getDay()]+ ", "+ datein.getDate() +" "+ monthNames[datein.getMonth()] + ' → ' +days[dateout.getDay()] + ", "+ dateout.getDate() + " " +monthNames[dateout.getMonth()] +" | "+diffDays+" night(s)";
+    return days[datein.getDay()]+ ", "+ datein.getDate() +" "+
+      monthNames[datein.getMonth()] + ' → ' +days[dateout.getDay()] + ", "+
+      dateout.getDate() + " " +monthNames[dateout.getMonth()] +" | "+diffDays+" night(s) | "+this.param.guest +" guest(s)" ;
   }
 }
 

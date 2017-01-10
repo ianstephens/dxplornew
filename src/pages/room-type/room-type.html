@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>room-type</ion-title>
+    <ion-title>Detail Ruangan</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,11 +17,32 @@
 
   <ion-list>
     <ion-item *ngFor="let roomty of roomtype">
-      <h2>Room type : <b>{{roomty.typename}}</b></h2>
-      <h2 item-right> USD {{roomty.netprice}}</h2>
-        Rooms : {{roomty.numrooms}}<br>
-      <button ion-button (click)="showRoomTypeDetail(roomty.roomRate)">Show Detail</button>
+      <h2>Room type : <b>{{roomty.$.TypeName}}</b></h2>
+      <h2 > Total Price : <b>USD {{roomty.$.TotalPrice}}</b> | {{roomty.Rate.length}} night(s)</h2>
+        Rooms : {{roomty.$.NumRooms}}<br>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let roomrate of roomty.Rate; let i = index" width-30 (click)="showRoomTypeDetail(roomrate)">
+            <ion-card>
+
+              <ion-card-header>
+                Night {{i}}
+              </ion-card-header>
+
+              <ion-card-content>
+                {{roomrate.$.NightPrice}}
+              </ion-card-content>
+
+            </ion-card>
+
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+      <button ion-button (click)="bookHotel()" block outline>Book Now!</button>
 
     </ion-item>
   </ion-list>
+
+
+
 </ion-content>

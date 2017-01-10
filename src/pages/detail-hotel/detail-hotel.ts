@@ -20,6 +20,14 @@ import {RoomTypePage} from "../room-type/room-type";
 export class DetailHotelPage {
 
   public hoteldata : any;
+  public hotelDetail:any;
+
+  public bookdata;
+
+  public policyArray :any;
+
+  public facility = [];
+
 
   public id:any;
   public nama :any;
@@ -36,32 +44,32 @@ export class DetailHotelPage {
   website :any;
   rating :any;
 
-  public policyArray :any;
-
-
-
-  public facility = [];
-
-
   constructor(public navCtrl: NavController, public navParams: NavParams, public http   : Http,
               public alertCtrl: AlertController,public modalCtrl: ModalController, public actionSheetCtrl: ActionSheetController) {
 
     this.hoteldata = navParams.get('hoteldata');
-    this.loadData(this.hoteldata.id);
+    this.bookdata = navParams.get('bookdata');
+
+
+    console.log(this.hoteldata);
+    this.loadData(this.hoteldata.$.HotelId);
 
   }
 
   presentActionSheet(){
 
     var actionSheetArr = [];
-    for(var i=0;i<this.hoteldata.roomcategory.length;i++) {
-      var roomcategory = this.hoteldata.roomcategory[i];
+    for(var i=0;i<this.hoteldata.RoomCateg.length;i++) {
+      var roomcategory = this.hoteldata.RoomCateg[i].$;
+      var roomcat = this.hoteldata.RoomCateg[i];
       actionSheetArr.push(
         {
-          text: roomcategory.name + " (USD " + roomcategory.netprice + ")",
+          text: roomcategory.Name + " (USD " + roomcategory.NetPrice + ")",
           handler: () => {
             this.navCtrl.push(RoomTypePage, {
-              roomtype: roomcategory.roomtype
+              roomtype: roomcat.RoomType,
+              hotel : this.hoteldata.$,
+              bookdata: this.bookdata
             });
           }
         }
@@ -104,7 +112,8 @@ export class DetailHotelPage {
 
             //this.rating = data[0].rating;
             this.policyArray = data;
-            this.showAlert(this.policyArray);
+            console.log(this.policyArray);
+            this.showAlert(this.policyArray.Policies[0]);
             //this.loader.dismiss();
           });
       });
@@ -112,11 +121,12 @@ export class DetailHotelPage {
 
   showAlert(policies) {
     var policy = '';
-    for(var i=0;i<policies.length;i++){
-      if(i!=policies.length){
-        policy += (i+1)+'. '+ policies[i].description + "<br>" +"- Charge Type : " + policies[i].chargetype+" <br>" + "- Ex Cancel Days : " +policies[i].excanceldays + "<br><br>";
+    for(var i=0;i<policies.Policy.length;i++){
+      var pol = policies.Policy[i];
+      if(i!=policies.Policy.length){
+        policy += (i+1)+'. '+ pol.Description[0] + "<br>" +"- Charge Type : " + pol.ChargeType[0]+" <br>" + "- Ex Cancel Days : " +pol.ExCancelDays[0] + "<br><br>";
       }else{
-        policy += (i+1)+'. '+ policies[i].description + "<br>" +"- Charge Type : " + policies[i].chargetype +"<br>" + "- Ex Cancel Days : " +policies[i].excanceldays ;
+        policy += (i+1)+'. '+ pol.Description[0] + "<br>" +"- Charge Type : " + pol.ChargeType[0] +"<br>" + "- Ex Cancel Days : " +pol.ExCancelDays[0] ;
       }
     }
     let alert = this.alertCtrl.create({
@@ -144,25 +154,52 @@ export class DetailHotelPage {
         this.parseXML(data)
           .then((data)=>
           {
-            //this.hotelData = data;
-            this.id = data[0].id;
-            this.nama = data[0].nama;
-            this.jumlah_ruangan = data[0].jumlah_ruangan;
-            this.alamat1 = data[0].alamat1;
-            this.alamat2 = data[0].alamat2;
-            this.alamat3 = data[0].alamat3;
-            this.benua = data[0].benua;
-            this.region = data[0].region;
-            this.lokasi = data[0].lokasi;
-            this.telepon = data[0].telepon;
-            this.fax = data[0].fax;
-            this.email = data[0].email;
-            this.website = data[0].website;
-            this.rating = data[0].rating;
-            //this.loader.dismiss();
+              this.hotelDetail = data;
+              console.log(this.hotelDetail.HotelName[0]);
+
+            this.id = this.hotelDetail.HotelId[0];
+            this.nama = this.hotelDetail.HotelName[0];
+            this.jumlah_ruangan  = this.hotelDetail.HotelRooms[0];
+            this.alamat1 = this.hotelDetail.Address1[0];
+            this.alamat2  = this.hotelDetail.Address2[0];
+            this.alamat3  = this.hotelDetail.Address3[0];
+            this.benua  = this.hotelDetail.Continent[0];
+            this.region = this.hotelDetail.Region[0];
+            this.lokasi  = this.hotelDetail.Location[0];
+            this.telepon  = this.hotelDetail.Telephone[0];
+            this.fax = this.hotelDetail.Facsimile[0];
+            this.email = this.hotelDetail.Email[0];
+            this.website = this.hotelDetail.Website[0];
+            this.rating = this.hotelDetail.HotelRooms[0];
+            //console.log(this.hotelDetail);
           });
       });
   }
+
+  parseXML(data)
+  {
+    return new Promise(resolve =>
+    {
+      var k,
+        arr    = [],
+        parser = new xml2js.Parser(
+          {
+            trim: true,
+            explicitArray: true
+          });
+
+      parser.parseString(data, function (err, result)
+      {
+        var obj = result.Service_GetHotelDetail;
+        var item = obj.GetHotelDetail_Response[0];
+
+        arr = item;
+        resolve(arr);
+
+      });
+    });
+  }
+
 
   openURL(url){
     console.log(url)
@@ -187,68 +224,13 @@ export class DetailHotelPage {
         var obj = result.Service_ViewCancelPolicy;
         var item = obj.ViewCancelPolicy_Response[0];
 
-
-        var policies = item.Policies[0];
-        //console.log(policies);
-        for(k in policies.Policy) {
-         // console.log(k.Policy);
-          var data = policies.Policy[k];
-          console.log(data)
-
-          arr.push({
-              excanceldays   : data.ExCancelDays,
-              chargerate:data.ChargeRate,
-              chargetype:data.ChargeType,
-              description:data.Description
-          });
-        }
-
+        arr = item;
        // console.log(item);
-
-
         resolve(arr);
 
       });
     });
   }
 
-  parseXML(data)
-  {
-    return new Promise(resolve =>
-    {
-      var k,
-        arr    = [],
-        parser = new xml2js.Parser(
-          {
-            trim: true,
-            explicitArray: true
-          });
 
-      parser.parseString(data, function (err, result)
-      {
-        var obj = result.Service_GetHotelDetail;
-        var item = obj.GetHotelDetail_Response[0];
-
-        arr.push({
-          id   : item.HotelId,
-          nama : item.HotelName,
-          jumlah_ruangan : item.HotelRooms,
-          rating : item.Rating,
-          alamat1 : item.Address1,
-          alamat2 : item.Address2,
-          alamat3 : item.Address3,
-          benua  : item.Continent,
-          region : item.Region,
-          lokasi : item.Location,
-          telepon : item.Telephone,
-          fax : item.Facsimile,
-          email : item.Email,
-          website : item.Website
-        });
-
-        resolve(arr);
-
-      });
-    });
-  }
 }
