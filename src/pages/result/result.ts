@@ -42,7 +42,7 @@ export class ResultPage {
   loadXML(todo)
   {
 
-this.http.get("http://joomla.ternaku.com/testes.php?destination="+todo.destination+"&checkin="+todo.checkin+"&checkout="+todo.checkout+"&guest="+todo.guest+"&room="+todo.room+"&country="+todo.country)
+this.http.get("http://joomla.ternaku.com/ServiceSearchHotel.php?destination="+todo.destination+"&checkin="+todo.checkin+"&checkout="+todo.checkout+"&guest="+todo.guest+"&room="+todo.room+"&country="+todo.country)
       .map(res => res.text())
       .subscribe((data)=>
       {
