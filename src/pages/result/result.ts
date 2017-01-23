@@ -218,6 +218,8 @@ this.http.get("http://joomla.ternaku.com/ServiceSearchHotel.php?destination="+to
  getNumber (num) {
   return new Array(parseInt(num, 10));
 };
+
+
   //event ketika button di list di klik
   buttonClick(value){
     //alert(value);

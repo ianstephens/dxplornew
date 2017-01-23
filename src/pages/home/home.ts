@@ -8,6 +8,7 @@ import { ResultPage } from '../result/result';
 import { AboutPage } from '../about/about';
 import { MyPagePage } from '../my-page/my-page';
 import { NgModule } from '@angular/core';
+import {ReservationInfoPage} from "../reservation-info/reservation-info";
 
 
 @Component({
@@ -199,12 +200,28 @@ export class HomePage {
     this.todo.checkin = this.todo.checkin.split("T")[0];
     this.todo.checkout = this.todo.checkout.split("T")[0];
 
+
+
     this.navCtrl.push(ResultPage, {
       param1: this.todo
     });
 
 
   }
+
+  //ini edit deo
+  todogetres ={
+    reservationno:'',
+    bookid:''
+  };
+
+  searchres(form){
+    this.navCtrl.push(ReservationInfoPage,{param2:this.todogetres});
+    console.log(this.todogetres.reservationno);
+
+  }
+  //end edit deo
+
 
 
 

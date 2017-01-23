@@ -7,6 +7,9 @@ import {DetailHotelPage} from "../pages/detail-hotel/detail-hotel";
 import {VcancelpolicyPage} from "../pages/vcancelpolicy/vcancelpolicy";
 import {ModalRoomcategoryPage} from "../pages/modal-roomcategory/modal-roomcategory";
 import {RoomTypePage} from "../pages/room-type/room-type";
+import {ReservationInfoPage} from "../pages/reservation-info/reservation-info";
+import {ModifyReservationPage} from "../pages/modify-reservation/modify-reservation";
+import {BookHotelPage} from "../pages/book-hotel/book-hotel";
 
 import { MultiPickerModule } from 'ion-multi-picker';
 
@@ -19,7 +22,10 @@ import { MultiPickerModule } from 'ion-multi-picker';
     DetailHotelPage,
     VcancelpolicyPage,
     ModalRoomcategoryPage,
-    RoomTypePage
+    RoomTypePage,
+    ReservationInfoPage,
+    ModifyReservationPage,
+    BookHotelPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -33,7 +39,10 @@ import { MultiPickerModule } from 'ion-multi-picker';
     DetailHotelPage,
     VcancelpolicyPage,
     ModalRoomcategoryPage,
-    RoomTypePage
+    RoomTypePage,
+    ReservationInfoPage,
+    ModifyReservationPage,
+    BookHotelPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

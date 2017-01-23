@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import xml2js from 'xml2js';
 import 'rxjs/add/operator/map';
-
+import { BookHotelPage } from '../book-hotel/book-hotel';
 import { Http } from '@angular/http';
 
 /*
@@ -53,11 +53,11 @@ export class RoomTypePage {
   bookHotel(){
     console.log(this.hoteldata);
     console.log(this.bookdata);
+    this.navCtrl.push(BookHotelPage,{param2:this.bookdata});
   }
 
   loadData()
   {
-
     this.http.get("http://joomla.ternaku.com/GetRsvnInfo.php")
       .map(res => res.text())
       .subscribe((data)=>

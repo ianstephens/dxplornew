@@ -3,8 +3,20 @@
     <ion-title >
       Home
     </ion-title>
+
+    <!--ini deo edit-->
+    <form #form1="ngForm" (ngSubmit)="searchres(form)" novalidate>
+      <ion-searchbar [(ngModel)]="todogetres.reservationno" name="reservationno" placeholder="Your Reservation Code" ></ion-searchbar>
+      <ion-searchbar [(ngModel)]="todogetres.bookid" name="bookid" placeholder="Your Booking Code" ></ion-searchbar>
+      <button ion-button type="submit" block>Find</button>
+    </form>
+    <!--end deo edit-->
   </ion-navbar>
 </ion-header>
+
+
+
+
 
 <ion-content padding>
   <h2>Pencarian Hotel</h2>

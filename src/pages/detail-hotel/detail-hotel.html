@@ -18,19 +18,19 @@
   <ion-card>
     <ion-card-content>
       <ion-card-title>
-        <h1>{{nama}}</h1>
+        <h1>{{namamodify}}</h1>
       </ion-card-title>
       <p>
-        Address : {{alamat1}} {{alamat2}} {{alamat3}}, {{lokasi}}
+        Address : {{alamat1modify}} {{alamat2modify}} {{alamat3modify}}, {{lokasimodify}}
       </p>
-      <h3 item-right>Phone : {{telepon}}, Fax : {{fax}} <br> e-mail : {{email}}</h3>
+      <h3 item-right>Phone : {{teleponmodify}}, Fax : {{faxmodify}} <br> e-mail : {{emailmodify}}</h3>
 
       Website :
-      <a href="#" (click)="openURL(website)">
-        {{website}}
+      <a href="#" (click)="openURL(websitemodify)">
+        {{websitemodify}}
       </a>
 
-      <h2>Room Available : {{jumlah_ruangan}} </h2>
+      <h2>Room Available : {{jumlah_ruanganmodify}} </h2>
 
       <button ion-button (click)="loadCancelPolicy()" >Cancel Policy</button>
       <button ion-button (click)="presentActionSheet() " color="secondary" >Select Room</button>
